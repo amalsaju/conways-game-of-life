@@ -3,6 +3,7 @@ import Cell from "./_components/cell";
 import { useEffect, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
+import WarningDialog from "./_components/warning-dialog";
 
 export default function Home() {
 
@@ -248,9 +249,9 @@ export default function Home() {
     }
   }
 
-
   return (
     <div className="w-full flex flex-col place-items-center h-screen">
+      <WarningDialog />
       <div className="h-1/2">
         <div className={`grid border-2 border-black m-5 w-fit`} onDrag={() => setMouseDown(false)} onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} style={{ gridTemplateColumns: `repeat(${noOfCols}, minmax(0, 1fr))` }}>
           {currentState.map((item, index) => {
