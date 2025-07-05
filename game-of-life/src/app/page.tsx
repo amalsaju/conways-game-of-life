@@ -1,24 +1,23 @@
 'use client';
 import Cell from "./_components/cell";
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
-import { useInterval } from 'usehooks-ts'
 
 export default function Home() {
 
-  const initialState = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  ]
+  // const initialState = [
+  //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  //   0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+  //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  //   0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+  //   0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
+  //   0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
+  //   0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+  //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  // ]
 
   const minPlaySpeed = 1;
   const maxPlaySpeed = 10;
@@ -147,7 +146,7 @@ export default function Home() {
       return;
     }
 
-    let newState: number[] = [];
+    const newState: number[] = [];
 
     currentState.map((item, index) => {
       if (index % noOfCols != noOfCols - 1) {
@@ -169,7 +168,7 @@ export default function Home() {
       return;
     }
     // if(numOfColumns > maxc)
-    let newState: number[] = [];
+    const newState: number[] = [];
     let currentRowNum = 1;
 
     currentState.map((item, index) => {
@@ -218,26 +217,22 @@ export default function Home() {
 
   }
 
-  const interval = useRef<NodeJS.Timeout | null>(null);
 
-  const startLongPress = (functionToExcute: () => void) => {
-    interval.current = setInterval(() => {
-      // console.log("called!", " no of cols:", noOfCols);
-      // event.preventDefault();
-      // removeColumns();
-      functionToExcute();
-    }, 500);
-  };
+  // const startLongPress = (functionToExcute: () => void) => {
+  //   interval.current = setInterval(() => {
+  //     // console.log("called!", " no of cols:", noOfCols);
+  //     // event.preventDefault();
+  //     // removeColumns();
+  //     functionToExcute();
+  //   }, 500);
+  // };
 
-  const stopLongPress = useCallback(() => {
-    interval.current && clearInterval(interval.current);
-  }, [])
+  // const stopLongPress = useCallback(() => {
+  //   interval.current && clearInterval(interval.current);
+  // }, [])
 
   // const notify = () => toast.success("!test", { position: "top-right" });
 
-  const updateRows = (numOfRows: number) => {
-
-  }
 
   const drawPattern = (index: number) => {
     setCurrentState((currentState) => {
@@ -247,13 +242,20 @@ export default function Home() {
     })
   }
 
+  const checkDraw = (index: number) => {
+    if (mouseDown) {
+      drawPattern(index);
+    }
+  }
+
+
   return (
     <div className="w-full flex flex-col place-items-center h-screen">
       <div className="h-1/2">
         <div className={`grid border-2 border-black m-5 w-fit`} onDrag={() => setMouseDown(false)} onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} style={{ gridTemplateColumns: `repeat(${noOfCols}, minmax(0, 1fr))` }}>
           {currentState.map((item, index) => {
             return (
-              <Cell key={index} clickHandler={() => drawPattern(index)} mouseDownHandler={() => { mouseDown && drawPattern(index) }} currentState={item} />
+              <Cell key={index} clickHandler={() => drawPattern(index)} mouseDownHandler={() => checkDraw(index)} currentState={item} />
             );
           }
           )}

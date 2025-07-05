@@ -1,6 +1,4 @@
-'use client';
-import { MouseEventHandler, useState } from "react";
-import { CellState } from "../utils";
+import { MouseEventHandler } from "react";
 
 // 1 == Alive, 0 == Dead 
 const Cell = ({ currentState, clickHandler, mouseDownHandler }: { currentState: number, clickHandler: MouseEventHandler, mouseDownHandler: MouseEventHandler }) => {
